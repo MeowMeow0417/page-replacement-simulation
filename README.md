@@ -36,21 +36,13 @@ Each simulation visually represents:
 
 ---
 
-### 🔹 Option 2: Run from Source (Developer Mode)
+### 🔹 Option 2: Run from the Live Site
 
-#### Requirements:
-- Node.js
-- npm
+You can also access the application instantly without setup by visiting the live deployment:
 
-#### Steps:
+**[page-replacement-simulation-zeta.vercel.app](page-replacement-simulation-zeta.vercel.app)**
 
-git clone https://github.com/MeowMeow0417/page-replacement-simulation.git  
-cd page-replacement-simulation  
-npm install  
-npm run dev  
-
-Open your browser and go to:  
-**http://localhost:3000**
+Just open this URL in any modern browser to use the interactive page replacement simulation online.
 
 ---
 
