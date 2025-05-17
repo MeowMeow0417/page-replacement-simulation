@@ -2,25 +2,7 @@
 
 This project demonstrates the implementation and simulation of FIFO, LRU, and OPT (Optimal) page replacement algorithms using TypeScript and React. It includes animated visualizations, well-commented source code, and a case study document with screenshots of sample inputs/outputs.
 
-## 📁 Project Structure
-
-PageReplacementCaseStudy/
-├── docs/
-│   └── CaseStudyDocumentation.pdf         # Full report with screenshots
-├── executables/
-│   ├── PageReplacementApp-Windows.zip     # Windows build (zipped)
-│   └── PageReplacementApp-Mac.zip         # macOS build (zipped)
-├── src/
-│   ├── FIFO.tsx
-│   ├── LRU.tsx
-│   ├── OPT.tsx
-│   └── main.tsx
-├── public/
-│   └── assets (images, icons, etc.)
-├── README.md
-├── package.json
-└── tsconfig.json
-
+-------
 ## 🧠 Algorithms Implemented
 
 1. FIFO (First-In, First-Out)  
@@ -36,6 +18,8 @@ Each algorithm is visualized in a step-by-step animated format, showing:
 - 🟩 Cache hits
 - 🟥 Cache misses
 - 🔄 Evictions
+
+------
 
 ## 💻 How to Run the Application
 
@@ -57,7 +41,64 @@ Requirements:
 
 Steps:
 ```bash
-git clone https://github.com/yourusername/Page-Replacement-Algorithms-CaseStudy.git
-cd Page-Replacement-Algorithms-CaseStudy
+git clone https://github.com/MeowMeow0417/page-replacement-simulation.git 
+cd Page-Replacement
 npm install
 npm run dev
+
+Then open your browser and go to: http://localhost:3000
+
+📄 Documentation
+The full case study with explanations and screenshots is available at:
+
+docs/CaseStudyDocumentation.pdf
+
+It includes:
+
+Description of all three algorithms
+
+Code structure and comments
+
+Sample inputs/outputs
+
+Screenshots from the animated simulation
+
+Observations and conclusions
+
+✨ Features
+✅ Fully commented source code
+
+✅ Animated visualizations
+
+✅ Step-by-step simulation
+
+✅ Custom cache size and input support
+
+✅ Executables for both Windows and macOS
+
+🛠 Tech Stack
+React (with TypeScript)
+
+Framer Motion (for animations)
+
+Electron (for packaging the app)
+
+Node.js + npm
+
+📷 Screenshots
+Screenshots are embedded in docs/CaseStudyDocumentation.pdf. These cover:
+
+Input sequences for each algorithm
+
+Output states of memory frames
+
+Hits, misses, and page replacements
+
+👤 Author
+[Your Full Name]
+GitHub: https://github.com/yourusername
+Email: yourname@example.com
+Created for the Final Case Study on Page Replacement Algorithms
+
+📜 License
+This project is open-source under the MIT License.
