@@ -40,14 +40,14 @@ Requirements:
 - npm
 
 Steps:
-```bash
+bash
 git clone https://github.com/MeowMeow0417/page-replacement-simulation.git 
 cd Page-Replacement
 npm install
 npm run dev
 
 Then open your browser and go to: http://localhost:3000
-
+----
 📄 Documentation
 The full case study with explanations and screenshots is available at:
 
@@ -64,7 +64,7 @@ Sample inputs/outputs
 Screenshots from the animated simulation
 
 Observations and conclusions
-
+---
 ✨ Features
 ✅ Fully commented source code
 
@@ -75,7 +75,7 @@ Observations and conclusions
 ✅ Custom cache size and input support
 
 ✅ Executables for both Windows and macOS
-
+---
 🛠 Tech Stack
 React (with TypeScript)
 
@@ -84,7 +84,7 @@ Framer Motion (for animations)
 Electron (for packaging the app)
 
 Node.js + npm
-
+---
 📷 Screenshots
 Screenshots are embedded in docs/CaseStudyDocumentation.pdf. These cover:
 
@@ -93,12 +93,10 @@ Input sequences for each algorithm
 Output states of memory frames
 
 Hits, misses, and page replacements
-
+---
 👤 Author
 [Your Full Name]
 GitHub: https://github.com/yourusername
 Email: yourname@example.com
 Created for the Final Case Study on Page Replacement Algorithms
 
-📜 License
-This project is open-source under the MIT License.
