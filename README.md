@@ -40,9 +40,10 @@ Each simulation visually represents:
 
 You can also access the application instantly without setup by visiting the live deployment:
 
-**[page-replacement-simulation-zeta.vercel.app](page-replacement-simulation-zeta.vercel.app)**
+[https://page-replacement-simulation-zeta.vercel.app](https://page-replacement-simulation-zeta.vercel.app)
 
 Just open this URL in any modern browser to use the interactive page replacement simulation online.
+
 
 ---
 
