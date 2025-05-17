@@ -13,47 +13,73 @@ import {
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input';
 
-// Generate better page request patterns
+/**
+ * Generate a sequence of page requests simulating realistic access patterns.
+ * - Mostly requests come from a small base set (70% chance).
+ * - Occasionally random pages are requested (30% chance).
+ *
+ * @param length Number of requests to generate
+ * @returns Array of string page requests (e.g., ["0","1","2",...])
+ */
 const generateRequests = (length) => {
   const base = Array.from({ length: Math.ceil(length / 3) }, (_, i) => (i % 10).toString());
   const requests = [];
   for (let i = 0; i < length; i++) {
     const r = Math.random();
     if (r < 0.7) {
+      // 70%: pick from base pattern
       requests.push(base[Math.floor(Math.random() * base.length)]);
     } else {
+      // 30%: pick any random page 0-9
       requests.push((Math.floor(Math.random() * 10)).toString());
     }
   }
   return requests;
 };
 
-// FIFO Algorithm
+/**
+ * FIFO Page Replacement Algorithm Implementation.
+ * Uses a queue to track the pages in cache.
+ * Evicts the oldest page on cache miss when full.
+ *
+ * @param requests Array of requested pages
+ * @param cacheSize Size of cache
+ * @returns Array of step objects representing cache state after each request
+ */
 const buildFIFOSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
   const cacheSet = new Set();
 
   for (const page of requests) {
-    const hit = cacheSet.has(page);
+    const hit = cacheSet.has(page); // Check if page in cache
     let evicted = null;
 
     if (!hit) {
       if (cache.length >= cacheSize) {
-        evicted = cache.shift();
+        evicted = cache.shift(); // Remove oldest page (FIFO)
         cacheSet.delete(evicted);
       }
       cache.push(page);
       cacheSet.add(page);
     }
 
+    // Record step: current cache state, current page, hit or miss, evicted page
     steps.push({ cache: [...cache], current: page, hit, evicted });
   }
 
   return steps;
 };
 
-// LRU Algorithm
+/**
+ * LRU (Least Recently Used) Page Replacement Algorithm.
+ * Tracks last used index of each page.
+ * Evicts page with oldest last use on miss when cache is full.
+ *
+ * @param requests Array of page requests
+ * @param cacheSize Cache size
+ * @returns Array of step objects
+ */
 const buildLRUSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
@@ -66,6 +92,7 @@ const buildLRUSteps = (requests, cacheSize) => {
 
     if (!hit) {
       if (cache.length >= cacheSize) {
+        // Find LRU page in cache (lowest lastUsed index)
         let lruPage = cache[0];
         let oldest = lastUsed.get(lruPage) ?? 0;
         for (const p of cache) {
@@ -79,6 +106,8 @@ const buildLRUSteps = (requests, cacheSize) => {
       }
       cache.push(page);
     }
+
+    // Update last used index for current page
     lastUsed.set(page, i);
 
     steps.push({ cache: [...cache], current: page, hit, evicted });
@@ -87,7 +116,14 @@ const buildLRUSteps = (requests, cacheSize) => {
   return steps;
 };
 
-// OPT Algorithm
+/**
+ * OPT (Optimal) Page Replacement Algorithm.
+ * Evicts the page which will not be used for the longest future duration.
+ *
+ * @param requests Array of page requests
+ * @param cacheSize Cache size
+ * @returns Array of step objects
+ */
 const buildOPTSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
@@ -102,11 +138,14 @@ const buildOPTSteps = (requests, cacheSize) => {
         let farthestPage = '';
         let farthestIndex = -1;
         for (const p of cache) {
+          // Find next use of page in future requests
           const nextUse = requests.slice(i + 1).indexOf(p);
           if (nextUse === -1) {
+            // If page not used again, evict immediately
             farthestPage = p;
             break;
           } else if (nextUse > farthestIndex) {
+            // Otherwise evict page with farthest future use
             farthestIndex = nextUse;
             farthestPage = p;
           }
@@ -123,11 +162,18 @@ const buildOPTSteps = (requests, cacheSize) => {
   return steps;
 };
 
+/**
+ * Component to visualize current cache state with animation.
+ * Highlights hits in green, evicted pages in red.
+ *
+ * @param step Current step data (cache array, current page, hit, evicted)
+ * @returns JSX Element
+ */
 function CacheVisualizer({ step }) {
   return (
     <Card className="flex gap-2 p-6 border rounded-xl w-full justify-center flex-row text-center">
       <AnimatePresence>
-        {/* Render Evicted Page Separately */}
+        {/* Evicted Page */}
         {step.evicted && (
           <motion.div
             key={`evicted-${step.evicted}`}
@@ -140,7 +186,7 @@ function CacheVisualizer({ step }) {
           </motion.div>
         )}
 
-        {/* Render Cache Pages */}
+        {/* Cache Pages */}
         {step.cache.map((page) => (
           <motion.div
             key={page}
@@ -160,6 +206,18 @@ function CacheVisualizer({ step }) {
   );
 }
 
+/**
+ * Controls component for play/pause, stepping, resetting, and speed slider.
+ *
+ * @param isPlaying Boolean play state
+ * @param onPlay Function to trigger play
+ * @param onPause Function to trigger pause
+ * @param onStep Function to advance one step
+ * @param onReset Function to reset simulation
+ * @param speed Current speed multiplier
+ * @param setSpeed Setter for speed
+ * @returns JSX element
+ */
 function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed, setSpeed }) {
   return (
     <Card className="w-full h-72">
@@ -168,7 +226,7 @@ function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed
       </CardHeader>
       <CardContent className="flex flex-col gap-6 p-6 pt-0">
 
-        {/* Speed Control */}
+        {/* Speed Slider */}
         <div className="flex flex-col gap-2">
           <Label className="text-sm text-center">Speed</Label>
           <div className="flex items-center gap-2">
@@ -184,7 +242,7 @@ function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed
           </div>
         </div>
 
-        {/* Buttons */}
+        {/* Buttons: Step, Play/Pause, Reset */}
         <div className="flex flex-col gap-2">
           <Button onClick={onStep} variant="outline">Step</Button>
           <Button onClick={isPlaying ? onPause : onPlay}>
@@ -198,6 +256,17 @@ function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed
   );
 }
 
+/**
+ * Displays statistics of the simulation:
+ * - Total requests processed
+ * - Total page hits
+ * - Total page faults
+ *
+ * @param totalRequests Number of requests processed so far
+ * @param totalHits Number of cache hits
+ * @param totalFaults Number of cache misses (faults)
+ * @returns JSX element
+ */
 function StatsDashboard({ totalRequests, totalHits, totalFaults }) {
   return (
     <Card className="w-full ">
@@ -223,28 +292,51 @@ function StatsDashboard({ totalRequests, totalHits, totalFaults }) {
   );
 }
 
+/**
+ * Main Cache Simulator Component.
+ * Handles user input, runs selected algorithm, controls playback, and renders UI.
+ */
 function CacheSim() {
+  // Cache size in number of pages (default 3)
   const [cacheSize, setCacheSize] = useState(3);
+  // Number of page requests to generate (default 20)
   const [numRequests, setNumRequests] = useState(20);
+  // Generated page reference string (array of pages)
   const [requests, setRequests] = useState([]);
+  // Array of steps generated by the selected algorithm
   const [steps, setSteps] = useState([]);
+  // Current simulation step index
   const [currentStep, setCurrentStep] = useState(0);
+  // Play/pause state for animation
   const [isPlaying, setIsPlaying] = useState(false);
+  // Playback speed multiplier
   const [speed, setSpeed] = useState(1);
+  // Selected page replacement algorithm
   const [algorithm, setAlgorithm] = useState('FIFO');
 
+  // Ref for interval ID used in playback
   const intervalRef = useRef(null);
 
+  /**
+   * Generates new page requests and runs the selected algorithm to build simulation steps.
+   * Resets simulation state and pauses playback.
+   */
   const runSimulation = () => {
     const reqs = generateRequests(numRequests);
     let builtSteps = [];
 
-    if (algorithm === 'FIFO') {
-      builtSteps = buildFIFOSteps(reqs, cacheSize);
-    } else if (algorithm === 'LRU') {
-      builtSteps = buildLRUSteps(reqs, cacheSize);
-    } else if (algorithm === 'OPT') {
-      builtSteps = buildOPTSteps(reqs, cacheSize);
+    switch (algorithm) {
+      case 'FIFO':
+        builtSteps = buildFIFOSteps(reqs, cacheSize);
+        break;
+      case 'LRU':
+        builtSteps = buildLRUSteps(reqs, cacheSize);
+        break;
+      case 'OPT':
+        builtSteps = buildOPTSteps(reqs, cacheSize);
+        break;
+      default:
+        builtSteps = buildFIFOSteps(reqs, cacheSize);
     }
 
     setRequests(reqs);
@@ -253,155 +345,147 @@ function CacheSim() {
     setIsPlaying(false);
   };
 
-  const totalRequests = currentStep + 1;
-  const totalFaults = steps.slice(0, currentStep + 1).filter((s) => !s.hit).length;
-  const totalHits = totalRequests - totalFaults;
+  /**
+   * Advances simulation one step.
+   * Stops playing if at the end.
+   */
+  const stepForward = () => {
+    setCurrentStep((step) => {
+      if (step + 1 >= steps.length) {
+        setIsPlaying(false);
+        return step;
+      }
+      return step + 1;
+    });
+  };
 
+  /**
+   * Handles starting playback with the current speed.
+   */
+  const play = () => {
+    setIsPlaying(true);
+  };
+
+  /**
+   * Handles pausing playback.
+   */
+  const pause = () => {
+    setIsPlaying(false);
+  };
+
+  /**
+   * Resets simulation by rerunning with current settings.
+   */
+  const reset = () => {
+    runSimulation();
+  };
+
+  /**
+   * Effect: on playing state, starts interval to step forward automatically.
+   * Clears interval on pause or unmount.
+   */
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
-        setCurrentStep((prev) => {
-          if (prev < steps.length - 1) return prev + 1;
-          clearInterval(intervalRef.current);
-          setIsPlaying(false);
-          return prev;
+        setCurrentStep((step) => {
+          if (step + 1 >= steps.length) {
+            setIsPlaying(false);
+            clearInterval(intervalRef.current);
+            return step;
+          }
+          return step + 1;
         });
       }, 1000 / speed);
     } else if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
-
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [isPlaying, speed, steps]);
+  }, [isPlaying, speed, steps.length]);
+
+  // Compute stats: count hits and faults up to currentStep
+  const totalHits = steps.slice(0, currentStep + 1).filter(s => s.hit).length;
+  const totalFaults = (currentStep + 1) - totalHits;
 
   return (
-    <section className="flex flex-col p-6 w-full mx-auto h-screen">
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="mb-4 text-2xl font-semibold text-center">Page Replacement Cache Simulator</h1>
 
-      {/* Title */}
-      <Label className="text-2xl font-bold mb-6 text-center">
-        Page Replacement Simulator - {algorithm}
-      </Label>
+      {/* Algorithm Selection */}
+      <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <Select value={algorithm} onValueChange={setAlgorithm} className="max-w-xs">
+          <SelectTrigger>
+            <SelectValue placeholder="Select Algorithm" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="FIFO">FIFO (First-In-First-Out)</SelectItem>
+            <SelectItem value="LRU">LRU (Least Recently Used)</SelectItem>
+            <SelectItem value="OPT">OPT (Optimal)</SelectItem>
+          </SelectContent>
+        </Select>
 
-      {/* Main Layout: Aside Left, Right Stack */}
-      <div className="flex flex-col md:flex-row gap-6">
-
-        {/* Left: Aside + Controls */}
-        <div className="flex flex-col gap-6 w-full md:max-w-sm">
-
-          {/* Aside Controls */}
-          <aside className="border p-6 rounded-lg shadow-md flex flex-col gap-6">
-            <div className="flex flex-col gap-2">
-              <Label className="text-sm">Algorithm:</Label>
-              <Select value={algorithm} onValueChange={(val) => setAlgorithm(val)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select an algorithm" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="FIFO">FIFO</SelectItem>
-                  <SelectItem value="LRU">LRU</SelectItem>
-                  <SelectItem value="OPT">OPT</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label className="text-sm">Cache Size:</Label>
-              <Input
-                type="number"
-                value={cacheSize}
-                min={1}
-                max={10}
-                onChange={(e) => setCacheSize(parseInt(e.target.value))}
-              />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label className="text-sm"># of Requests:</Label>
-              <Input
-                type="number"
-                value={numRequests}
-                min={1}
-                max={50}
-                onChange={(e) => setNumRequests(parseInt(e.target.value))}
-              />
-            </div>
-
-            <div className="flex items-end">
-              <Button
-                onClick={runSimulation}
-                className="w-full"
-                disabled={cacheSize <= 0 || numRequests <= 0}
-              >
-                🎲 Generate Requests
-              </Button>
-            </div>
-          </aside>
-
-          {/* Simulation Controls */}
-          {steps.length > 0 && (
-            <SimulationControls
-              isPlaying={isPlaying}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              onStep={() => setCurrentStep((s) => Math.min(s + 1, steps.length - 1))}
-              onReset={() => setCurrentStep(0)}
-              speed={speed}
-              setSpeed={setSpeed}
-            />
-          )}
+        {/* Cache Size Input */}
+        <div className="flex flex-col items-center">
+          <Label htmlFor="cacheSize">Cache Size</Label>
+          <Input
+            id="cacheSize"
+            type="number"
+            min={1}
+            max={10}
+            value={cacheSize}
+            onChange={(e) => setCacheSize(Math.max(1, Math.min(10, Number(e.target.value))))}
+            className="max-w-[100px]"
+          />
         </div>
 
-        {/* Right: PageRefs -> CurrentRequest -> Statistics */}
-        <div className="flex flex-col flex-1 gap-6 sm:pb-24">
-
-          {/* Page Reference String */}
-          {requests.length > 0 ? (
-            <Card className="w-full">
-              <CardHeader>
-                <CardTitle className="text-lg font-semibold">Page Reference String</CardTitle>
-              </CardHeader>
-              <CardContent className="flex flex-wrap gap-2 justify-center p-4 py-0">
-                {requests.map((page, idx) => (
-                  <span
-                    key={idx}
-                    className="px-2 py-1 bg-gray-100 border rounded text-sm dark:text-black"
-                  >
-                    {page}
-                  </span>
-                ))}
-              </CardContent>
-            </Card>
-          ) : (
-            <section className="flex flex-row justify-center items-center min-h-full">
-              <Label>Click Generate Requests to start simulation.</Label>
-            </section>
-          )}
-
-          {/* Current Request Visualizer */}
-          {steps.length > 0 && (
-            <div className="flex flex-col items-center">
-              <Label className="text-xl mb-2">
-                Current Request: <span className="font-bold">{steps[currentStep]?.current}</span>
-              </Label>
-              <CacheVisualizer step={steps[currentStep]} />
-            </div>
-          )}
-
-          {/* Statistics Dashboard */}
-          {steps.length > 0 && (
-            <StatsDashboard
-              totalRequests={totalRequests}
-              totalHits={totalHits}
-              totalFaults={totalFaults}
-            />
-          )}
+        {/* Number of Requests Input */}
+        <div className="flex flex-col items-center">
+          <Label htmlFor="numRequests">Number of Requests</Label>
+          <Input
+            id="numRequests"
+            type="number"
+            min={5}
+            max={100}
+            value={numRequests}
+            onChange={(e) => setNumRequests(Math.max(5, Math.min(100, Number(e.target.value))))}
+            className="max-w-[100px]"
+          />
         </div>
+
+        <Button onClick={runSimulation} className="h-10 self-end">Run Simulation</Button>
       </div>
-    </section>
+
+      {/* Show current request */}
+      <div className="mb-4 text-center text-lg">
+        {steps.length > 0 && currentStep < steps.length
+          ? `Current Page Request: ${steps[currentStep].current} (${steps[currentStep].hit ? 'Hit' : 'Miss'})`
+          : 'Run a simulation to see cache states'}
+      </div>
+
+      {/* Cache Visualization */}
+      {steps.length > 0 && currentStep < steps.length && (
+        <CacheVisualizer step={steps[currentStep]} />
+      )}
+
+      {/* Controls and Stats */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <SimulationControls
+          isPlaying={isPlaying}
+          onPlay={play}
+          onPause={pause}
+          onStep={stepForward}
+          onReset={reset}
+          speed={speed}
+          setSpeed={setSpeed}
+        />
+        <StatsDashboard
+          totalRequests={currentStep + 1}
+          totalHits={totalHits}
+          totalFaults={totalFaults}
+        />
+      </div>
+    </div>
   );
 }
 
