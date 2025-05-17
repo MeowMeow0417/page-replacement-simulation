@@ -1,105 +1,106 @@
-# Page Replacement Algorithms - Case Study
+# 📚 Page Replacement Algorithms – Case Study
 
-This project demonstrates the implementation and simulation of FIFO, LRU, and OPT (Optimal) page replacement algorithms using TypeScript and React. It includes animated visualizations, well-commented source code, and a case study document with screenshots of sample inputs/outputs.
+This project presents an interactive simulation of three fundamental **Page Replacement Algorithms**—**FIFO**, **LRU**, and **OPT (Optimal Replacement)**—built using **React** and **TypeScript**. Designed for both educational and demonstrative purposes, the application visualizes memory operations with animations, providing an intuitive understanding of how each algorithm behaves.
 
--------
+---
+
 ## 🧠 Algorithms Implemented
 
-1. FIFO (First-In, First-Out)  
-   - Evicts the page that has been in memory the longest.
+1. **FIFO (First-In, First-Out)**  
+   - Replaces the page that entered memory first.
 
-2. LRU (Least Recently Used)  
-   - Evicts the page that hasn't been used for the longest time.
+2. **LRU (Least Recently Used)**  
+   - Replaces the page that hasn’t been used for the longest time.
 
-3. OPT (Optimal Replacement)  
-   - Evicts the page that will not be used for the longest time in the future.
+3. **OPT (Optimal Replacement)**  
+   - Replaces the page that won’t be used for the longest time in the future.
 
-Each algorithm is visualized in a step-by-step animated format, showing:
-- 🟩 Cache hits
-- 🟥 Cache misses
-- 🔄 Evictions
+Each simulation visually represents:
+- 🟩 **Cache Hits**
+- 🟥 **Cache Misses**
+- 🔄 **Page Evictions**
 
-------
+---
 
-## 💻 How to Run the Application
+## 🚀 How to Run the Application
 
-### Option 1: Run the Executable
+### 🔹 Option 1: Run the Executable
 
-1. Navigate to the `executables/` folder.
-2. Download and unzip the relevant file:
-   - PageReplacementApp-Windows.zip
-   - PageReplacementApp-Mac.zip
-3. Run the extracted `.exe` or `.dmg` file on your machine.
+1. Go to the `executables/` directory.
+2. Download and unzip one of the following based on your OS:
+   - `PageReplacementApp-Windows.zip`
+   - `PageReplacementApp-Mac.zip`
+3. Run the extracted `.exe` (Windows) or `.dmg` (macOS) file.
 
-Note: Files are zipped to comply with GitHub's 25MB per-file limit.
+> ⚠️ *Executables are zipped to comply with GitHub’s 25MB file size limit.*
 
-### Option 2: Run From Source (Developer Mode)
+---
 
-Requirements:
+### 🔹 Option 2: Run from Source (Developer Mode)
+
+#### Requirements:
 - Node.js
 - npm
 
-Steps:
-<pre>
-bash 
-git 
-clone https://github.com/MeowMeow0417/page-replacement-simulation.git 
-cd page-replacement-simulation 
-npm install 
-npm run dev 
-</pre>
+#### Steps:
 
-Then open your browser and go to: http://localhost:3000
-----
-📄 Documentation
-The full case study with explanations and screenshots is available at:
+git clone https://github.com/MeowMeow0417/page-replacement-simulation.git  
+cd page-replacement-simulation  
+npm install  
+npm run dev  
 
-docs/CaseStudyDocumentation.pdf
+Open your browser and go to:  
+**http://localhost:3000**
+
+---
+
+## 📄 Documentation
+
+The full case study is available at:  
+`docs/CaseStudyDocumentation.pdf`
 
 It includes:
+- Description of all three algorithms
+- Code structure with comments
+- Sample inputs and outputs
+- Screenshots from the simulation
+- Observations and conclusions
 
-Description of all three algorithms
-
-Code structure and comments
-
-Sample inputs/outputs
-
-Screenshots from the animated simulation
-
-Observations and conclusions
 ---
-✨ Features
-✅ Fully commented source code
 
-✅ Animated visualizations
+## ✨ Features
 
-✅ Step-by-step simulation
+✅ Fully commented and organized source code  
+✅ Smooth animated visualizations using **Framer Motion**  
+✅ Step-by-step simulation of memory operations  
+✅ Support for custom input sequences and cache sizes  
+✅ Cross-platform executables for Windows and macOS  
 
-✅ Custom cache size and input support
-
-✅ Executables for both Windows and macOS
 ---
-🛠 Tech Stack
-React (with TypeScript)
 
-Framer Motion (for animations)
+## 🛠 Tech Stack
 
-Electron (for packaging the app)
+- React (TypeScript)
+- Framer Motion
+- Electron
+- Node.js + npm
 
-Node.js + npm
 ---
-📷 Screenshots
-Screenshots are embedded in docs/CaseStudyDocumentation.pdf. These cover:
 
-Input sequences for each algorithm
+## 📷 Screenshots
 
-Output states of memory frames
+Screenshots are embedded in the  
+`docs/CaseStudyDocumentation.pdf` file.
 
-Hits, misses, and page replacements
+They showcase:
+- Input sequences for FIFO, LRU, and OPT
+- Output states of memory frames
+- Visual feedback for hits, misses, and page replacements
+
 ---
-👤 Author
-Gilbert Cura
-GitHub: https://github.com/yourusername
-Email: yourname@example.com
-Created for the Final Case Study on Page Replacement Algorithms
 
+## 👤 Author
+
+**Gilbert Cura**  
+Created as part of the Final Case Study on  
+**Page Replacement Algorithms – 2025**
