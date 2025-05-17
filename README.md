@@ -40,11 +40,7 @@ Requirements:
 - npm
 
 Steps:
-``bash
-git clone https://github.com/MeowMeow0417/page-replacement-simulation.git 
-cd Page-Replacement
-npm install
-npm run dev``
+<pre> ```bash git clone https://github.com/MeowMeow0417/page-replacement-simulation.git cd page-replacement-simulation npm install npm run dev ``` </pre>
 
 Then open your browser and go to: http://localhost:3000
 ----
@@ -95,7 +91,7 @@ Output states of memory frames
 Hits, misses, and page replacements
 ---
 👤 Author
-[Your Full Name]
+Gilbert Cura
 GitHub: https://github.com/yourusername
 Email: yourname@example.com
 Created for the Final Case Study on Page Replacement Algorithms
