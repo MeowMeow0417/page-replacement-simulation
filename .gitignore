@@ -67,9 +67,6 @@ jest-cache/
 jest-coverage/
 *.lcov
 
-# Docker files
-docker-compose.override.yml
-docker-data/
 
 # Misc cache/temp files
 *.tgz
@@ -79,3 +76,15 @@ docker-data/
 
 # Git LFS tracked files (make sure to add this if you're using Git LFS)
 .gitattributes
+
+# Release builds / installers
+release/
+build/
+*.app
+*.asar
+
+# Node modules and binaries
+node_modules/
+
+# Git LFS objects (usually ignored automatically)
+.git/lfs/
