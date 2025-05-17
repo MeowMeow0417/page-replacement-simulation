@@ -103,4 +103,4 @@ They showcase:
 
 **Gilbert Cura**  
 Created as part of the Final Case Study on  
-**Page Replacement Algorithms – 2025**
+Final Project – Chapter 10: Page Replacement Algorithms
