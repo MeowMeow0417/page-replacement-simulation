@@ -40,11 +40,11 @@ Requirements:
 - npm
 
 Steps:
-bash
+``bash
 git clone https://github.com/MeowMeow0417/page-replacement-simulation.git 
 cd Page-Replacement
 npm install
-npm run dev
+npm run dev``
 
 Then open your browser and go to: http://localhost:3000
 ----
