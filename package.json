@@ -62,12 +62,16 @@
     "linux": {
       "target": "AppImage"
     },
-
-    "nsis": {
-      "oneClick": false,
-      "perMachine": true,
-      "allowToChangeInstallationDirectory": true
-    }
+   "nsis": {
+    "oneClick": false,
+    "perMachine": true,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Cache Simulator",
+   "uninstallDisplayName": "Uninstall Cache Simulator"
+  }
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
