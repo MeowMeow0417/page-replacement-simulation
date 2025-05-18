@@ -6,13 +6,13 @@ This project presents an interactive simulation of three fundamental **Page Repl
 
 ## 🧠 Algorithms Implemented
 
-1. **FIFO (First-In, First-Out)**  
+1. **FIFO (First-In, First-Out)**
    - Replaces the page that entered memory first.
 
-2. **LRU (Least Recently Used)**  
+2. **LRU (Least Recently Used)**
    - Replaces the page that hasn’t been used for the longest time.
 
-3. **OPT (Optimal Replacement)**  
+3. **OPT (Optimal Replacement)**
    - Replaces the page that won’t be used for the longest time in the future.
 
 Each simulation visually represents:
@@ -26,10 +26,10 @@ Each simulation visually represents:
 
 ### 🔹 Option 1: Run the Executable
 
-1. Go to the `executables/` directory.
+1. Go to the `executable/` directory.
 2. Download and unzip one of the following based on your OS:
-   - `PageReplacementApp-Windows.zip`
-   - `PageReplacementApp-Mac.zip`
+   - `Cache Simulator Setup 1.0.0.exe.zip`
+   - `executable/Cache Simulator-1.0.0.dmg.zip`
 3. Run the extracted `.exe` (Windows) or `.dmg` (macOS) file.
 
 > ⚠️ *Executables are zipped to comply with GitHub’s 25MB file size limit.*
@@ -49,8 +49,8 @@ Just open this URL in any modern browser to use the interactive page replacement
 
 ## 📄 Documentation
 
-The full case study is available at:  
-`docs/CaseStudyDocumentation.pdf`
+The full case study is available at:
+`docs/OS CASE STUDY - Gilbert Cura.pdf`
 
 It includes:
 - Description of all three algorithms
@@ -63,11 +63,11 @@ It includes:
 
 ## ✨ Features
 
-✅ Fully commented and organized source code  
-✅ Smooth animated visualizations using **Framer Motion**  
-✅ Step-by-step simulation of memory operations  
-✅ Support for custom input sequences and cache sizes  
-✅ Cross-platform executables for Windows and macOS  
+✅ Fully commented and organized source code
+✅ Smooth animated visualizations using **Framer Motion**
+✅ Step-by-step simulation of memory operations
+✅ Support for custom input sequences and cache sizes
+✅ Cross-platform executables for Windows and macOS
 
 ---
 
@@ -82,8 +82,8 @@ It includes:
 
 ## 📷 Screenshots
 
-Screenshots are embedded in the  
-`docs/CaseStudyDocumentation.pdf` file.
+Screenshots are embedded in the
+`docs/OS CASE STUDY - Gilbert Cura.pdf` file.
 
 They showcase:
 - Input sequences for FIFO, LRU, and OPT
@@ -94,5 +94,5 @@ They showcase:
 
 ## 👤 Author
 
-**Gilbert Cura**  
+**Gilbert Cura**
 Final Project – Chapter 10: Page Replacement Algorithms
