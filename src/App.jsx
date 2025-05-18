@@ -14,21 +14,24 @@ import {
 import { Input } from '@/components/ui/input';
 
 // Random request generator with locality
+// Generates a sequence of page requests with some locality of reference
 const generateRequests = (length) => {
   const base = Array.from({ length: Math.ceil(length / 3) }, (_, i) => (i % 10).toString());
   const requests = [];
   for (let i = 0; i < length; i++) {
     const r = Math.random();
     if (r < 0.7) {
+      // 70% chance to pick from the base (locality)
       requests.push(base[Math.floor(Math.random() * base.length)]);
     } else {
+      // 30% chance to pick a random page
       requests.push((Math.floor(Math.random() * 10)).toString());
     }
   }
   return requests;
 };
 
-// FIFO
+// FIFO (First-In-First-Out) page replacement algorithm
 const buildFIFOSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
@@ -38,29 +41,32 @@ const buildFIFOSteps = (requests, cacheSize) => {
     let evicted = null;
     if (!hit) {
       if (cache.length >= cacheSize) {
+        // Remove the oldest page (front of the queue)
         evicted = cache.shift();
         cacheSet.delete(evicted);
       }
       cache.push(page);
       cacheSet.add(page);
     }
+    // Record the state after this request
     steps.push({ cache: [...cache], current: page, hit, evicted });
   }
   return steps;
 };
 
-// LRU
+// LRU (Least Recently Used) page replacement algorithm
 const buildLRUSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
-  const lastUsed = new Map();
+  const lastUsed = new Map(); // Tracks last used index for each page
   for (let i = 0; i < requests.length; i++) {
     const page = requests[i];
     const hit = cache.includes(page);
     let evicted = null;
-    lastUsed.set(page, i);
+    lastUsed.set(page, i); // Update last used index
     if (!hit) {
       if (cache.length >= cacheSize) {
+        // Find the least recently used page
         let lruPage = cache[0];
         let oldest = lastUsed.get(lruPage);
         for (const p of cache) {
@@ -70,17 +76,19 @@ const buildLRUSteps = (requests, cacheSize) => {
             lruPage = p;
           }
         }
+        // Remove the LRU page
         cache.splice(cache.indexOf(lruPage), 1);
         evicted = lruPage;
       }
       cache.push(page);
     }
+    // Record the state after this request
     steps.push({ cache: [...cache], current: page, hit, evicted });
   }
   return steps;
 };
 
-// OPT
+// OPT (Optimal) page replacement algorithm
 const buildOPTSteps = (requests, cacheSize) => {
   const steps = [];
   const cache = [];
@@ -90,9 +98,11 @@ const buildOPTSteps = (requests, cacheSize) => {
     let evicted = null;
     if (!hit) {
       if (cache.length >= cacheSize) {
+        // Find the page in cache that will not be used for the longest time
         let farthestPage = null;
         let farthestIndex = -1;
         for (const p of cache) {
+          // Find next use of p after current index
           const nextIndex = requests.slice(i + 1).indexOf(p);
           const absoluteNextIndex = nextIndex === -1 ? Infinity : nextIndex + i + 1;
           if (absoluteNextIndex > farthestIndex) {
@@ -100,17 +110,20 @@ const buildOPTSteps = (requests, cacheSize) => {
             farthestPage = p;
           }
         }
+        // Remove the page that is used farthest in the future (or never)
         cache.splice(cache.indexOf(farthestPage), 1);
         evicted = farthestPage;
       }
       cache.push(page);
     }
+    // Record the state after this request
     steps.push({ cache: [...cache], current: page, hit, evicted });
   }
   return steps;
 };
 
-// Cache visualizer
+// Cache visualizer component
+// Shows the current cache state and highlights evicted/active pages
 function CacheVisualizer({ step }) {
   return (
     <Card className="flex flex-row gap-2 p-6 border rounded-xl w-full justify-center text-center">
@@ -146,7 +159,8 @@ function CacheVisualizer({ step }) {
   );
 }
 
-// Simulation Controls
+// Simulation Controls component
+// Allows user to control simulation playback, speed, and reset
 function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed, setSpeed }) {
   return (
     <Card className="w-full h-72">
@@ -176,7 +190,8 @@ function SimulationControls({ isPlaying, onPlay, onPause, onStep, onReset, speed
   );
 }
 
-// Stats Dashboard
+// Stats Dashboard component
+// Displays statistics: hits, faults, and total requests
 function StatsDashboard({ totalRequests, totalHits, totalFaults }) {
   return (
     <Card className="w-full">
@@ -199,19 +214,20 @@ function StatsDashboard({ totalRequests, totalHits, totalFaults }) {
   );
 }
 
-// Main Component
+// Main CacheSim component
+// Handles state, simulation logic, and layout
 function CacheSim() {
-  const [cacheSize, setCacheSize] = useState(3);
-  const [numRequests, setNumRequests] = useState(20);
-  const [requests, setRequests] = useState([]);
-  const [steps, setSteps] = useState([]);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [speed, setSpeed] = useState(1);
-  const [algorithm, setAlgorithm] = useState('FIFO');
-  const intervalRef = useRef(null);
+  const [cacheSize, setCacheSize] = useState(3); // Number of cache slots
+  const [numRequests, setNumRequests] = useState(20); // Number of page requests
+  const [requests, setRequests] = useState([]); // The generated page request sequence
+  const [steps, setSteps] = useState([]); // Simulation steps for visualization
+  const [currentStep, setCurrentStep] = useState(0); // Current step in the simulation
+  const [isPlaying, setIsPlaying] = useState(false); // Animation state
+  const [speed, setSpeed] = useState(1); // Animation speed
+  const [algorithm, setAlgorithm] = useState('FIFO'); // Selected algorithm
+  const intervalRef = useRef(null); // Ref for animation interval
 
-  // Generate and run simulation
+  // Generate and run simulation (new request sequence)
   const runSimulation = () => {
     const reqs = generateRequests(numRequests);
     setRequests(reqs);
@@ -231,7 +247,7 @@ function CacheSim() {
     setIsPlaying(false);
   }, [algorithm, cacheSize, numRequests, requests]);
 
-  // Play animation
+  // Play animation: advances simulation automatically at selected speed
   useEffect(() => {
     if (isPlaying) {
       intervalRef.current = setInterval(() => {
@@ -248,6 +264,7 @@ function CacheSim() {
     return () => clearInterval(intervalRef.current);
   }, [isPlaying, speed, steps]);
 
+  // Calculate statistics for dashboard
   const totalRequests = currentStep + 1;
   const totalFaults = steps.slice(0, totalRequests).filter((s) => !s.hit).length;
   const totalHits = totalRequests - totalFaults;
@@ -259,6 +276,7 @@ function CacheSim() {
       </Label>
       <div className="flex flex-col md:flex-row gap-6">
         <div className="flex flex-col gap-6 w-full md:max-w-sm">
+          {/* Sidebar: Algorithm, cache size, request count, generate button */}
           <aside className="border p-6 rounded-lg shadow-md flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <Label className="text-sm">Algorithm:</Label>
@@ -297,6 +315,7 @@ function CacheSim() {
               </Button>
             </div>
           </aside>
+          {/* Simulation controls (step, play, pause, reset, speed) */}
           {steps.length > 0 && (
             <SimulationControls
               isPlaying={isPlaying}
@@ -311,6 +330,7 @@ function CacheSim() {
         </div>
 
         <div className="flex flex-col flex-1 gap-6 sm:pb-24">
+          {/* Page reference string display */}
           {requests.length > 0 ? (
             <Card className="w-full">
               <CardHeader>
@@ -330,6 +350,7 @@ function CacheSim() {
             </section>
           )}
 
+          {/* Cache visualizer */}
           {steps.length > 0 && (
             <div className="flex flex-col items-center">
               <Label className="text-xl mb-2">
@@ -339,6 +360,7 @@ function CacheSim() {
             </div>
           )}
 
+          {/* Statistics dashboard */}
           {steps.length > 0 && (
             <StatsDashboard
               totalRequests={totalRequests}
