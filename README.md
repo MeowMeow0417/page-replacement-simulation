@@ -29,7 +29,7 @@ Each simulation visually represents:
 1. Go to the `executable/` directory.
 2. Download and unzip one of the following based on your OS:
    - `Cache Simulator Setup 1.0.0.exe.zip`
-   - `executable/Cache Simulator-1.0.0.dmg.zip`
+   - `Cache Simulator-1.0.0.dmg.zip`
 3. Run the extracted `.exe` (Windows) or `.dmg` (macOS) file.
 
 > ⚠️ *Executables are zipped to comply with GitHub’s 25MB file size limit.*
@@ -51,13 +51,6 @@ Just open this URL in any modern browser to use the interactive page replacement
 
 The full case study is available at:
 `docs/OS CASE STUDY - Gilbert Cura.pdf`
-
-It includes:
-- Description of all three algorithms
-- Code structure with comments
-- Sample inputs and outputs
-- Screenshots from the simulation
-- Observations and conclusions
 
 ---
 
