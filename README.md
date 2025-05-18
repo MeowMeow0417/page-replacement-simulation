@@ -95,5 +95,4 @@ They showcase:
 ## 👤 Author
 
 **Gilbert Cura**  
-Created as part of the Final Case Study on OS
 Final Project – Chapter 10: Page Replacement Algorithms
