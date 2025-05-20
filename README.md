@@ -65,19 +65,19 @@ The full case study is available at:
 <div align="center">
 
   <div>
-    <img width="500" alt="FIFO Algorithm" src="https://github.com/user-attachments/assets/024157ab-f475-4578-ad6d-9b7a6029188d" />
+   <img width="1083" alt="image" src="https://github.com/user-attachments/assets/c18db459-7bdd-4ac9-b6a7-8bd7d362a293" /> 
     <br />
     <em>FIFO Algorithm</em>
   </div>
   <br />
   <div>
-    <img width="500" alt="LRU Algorithm" src="https://github.com/user-attachments/assets/3f85ed25-47d1-47b3-aea1-78f7ffcd9eae" />
+   <img width="1077" alt="image" src="https://github.com/user-attachments/assets/311fb6f8-9a6a-48ac-a8f0-385be320e707" />
     <br />
     <em>LRU Algorithm</em>
   </div>
   <br />
   <div>
-    <img width="500" alt="OPT Algorithm" src="https://github.com/user-attachments/assets/0450ae7f-904a-4899-aafb-7cdb0030d8fd" />
+   <img width="1100" alt="image" src="https://github.com/user-attachments/assets/869206ea-eb24-4338-b559-2d31a7cbe8df" />
     <br />
     <em>OPT Algorithm</em>
   </div>
