@@ -56,11 +56,11 @@ The full case study is available at:
 
 ## ✨ Features
 
-✅ Fully commented and organized source code
-✅ Smooth animated visualizations using **Framer Motion**
-✅ Step-by-step simulation of memory operations
-✅ Support for custom input sequences and cache sizes
-✅ Cross-platform executables for Windows and macOS
+- ✅ Fully commented and organized source code
+- ✅ Smooth animated visualizations using **Framer Motion**
+- ✅ Step-by-step simulation of memory operations
+- ✅ Support for custom input sequences and cache sizes
+- ✅ Cross-platform executables for Windows and macOS
 
 ---
 
