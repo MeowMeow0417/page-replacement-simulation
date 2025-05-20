@@ -1,10 +1,20 @@
-# 📚 Page Replacement Algorithms – Case Study
+# Page Replacement Algorithms – Case Study
 
 This project presents an interactive simulation of three fundamental **Page Replacement Algorithms**—**FIFO**, **LRU**, and **OPT (Optimal Replacement)**—built using **React** and **TypeScript**. Designed for both educational and demonstrative purposes, the application visualizes memory operations with animations, providing an intuitive understanding of how each algorithm behaves.
 
 ---
 
-## 🧠 Algorithms Implemented
+## Tech Stack
+
+- **React (TypeScript)** – A powerful JavaScript library for building interactive user interfaces, enhanced with static typing using TypeScript.
+- **Framer Motion** – A production-ready motion library for React to create smooth, visually appealing animations.
+- **Electron** – A framework for building cross-platform desktop apps using web technologies like HTML, CSS, and JavaScript.
+- **Node.js + npm** – Node.js enables JavaScript to run server-side; npm is its package manager used to install and manage dependencies.
+
+
+---
+
+## Algorithms Implemented
 
 1. **FIFO (First-In, First-Out)**
    - Replaces the page that entered memory first.
@@ -22,9 +32,9 @@ Each simulation visually represents:
 
 ---
 
-## 🚀 How to Run the Application
+## How to Run the Application
 
-### 🔹 Option 1: Run the Executable
+### Option 1: Run the Executable
 
 1. Go to the `executable/` directory.
 2. Download and unzip one of the following based on your OS:
@@ -32,11 +42,7 @@ Each simulation visually represents:
    - `Cache Simulator-1.0.0.dmg.zip`
 3. Run the extracted `.exe` (Windows) or `.dmg` (macOS) file.
 
-> ⚠️ *Executables are zipped to comply with GitHub’s 25MB file size limit.*
-
----
-
-### 🔹 Option 2: Run from the Live Site
+### Option 2: Run from the Live Site
 
 You can also access the application instantly without setup by visiting the live deployment:
 
@@ -54,38 +60,34 @@ The full case study is available at:
 
 ---
 
-## ✨ Features
+## Screenshots
 
-- ✅ Fully commented and organized source code
-- ✅ Smooth animated visualizations using **Framer Motion**
-- ✅ Step-by-step simulation of memory operations
-- ✅ Support for custom input sequences and cache sizes
-- ✅ Cross-platform executables for Windows and macOS
+<div align="center">
 
----
+  <div>
+    <img width="500" alt="FIFO Algorithm" src="https://github.com/user-attachments/assets/024157ab-f475-4578-ad6d-9b7a6029188d" />
+    <br />
+    <em>FIFO Algorithm</em>
+  </div>
+  <br />
+  <div>
+    <img width="500" alt="LRU Algorithm" src="https://github.com/user-attachments/assets/3f85ed25-47d1-47b3-aea1-78f7ffcd9eae" />
+    <br />
+    <em>LRU Algorithm</em>
+  </div>
+  <br />
+  <div>
+    <img width="500" alt="OPT Algorithm" src="https://github.com/user-attachments/assets/0450ae7f-904a-4899-aafb-7cdb0030d8fd" />
+    <br />
+    <em>OPT Algorithm</em>
+  </div>
 
-## 🛠 Tech Stack
+</div>
 
-- React (TypeScript)
-- Framer Motion
-- Electron
-- Node.js + npm
-
----
-
-## 📷 Screenshots
-
-Screenshots are embedded in the
-`docs/OS CASE STUDY - Gilbert Cura.pdf` file.
-
-They showcase:
-- Input sequences for FIFO, LRU, and OPT
-- Output states of memory frames
-- Visual feedback for hits, misses, and page replacements
 
 ---
 
-## 👤 Author
+## Author
 
 **Gilbert Cura**
 Final Project – Chapter 10: Page Replacement Algorithms
